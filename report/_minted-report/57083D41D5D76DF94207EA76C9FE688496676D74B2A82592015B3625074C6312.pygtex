@@ -1,0 +1,47 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+  \PYG{k}{class} \PYG{n+nc}{CommonTransforms}\PYG{p}{:}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{    A class that defines common image transformations.}
+
+\PYG{l+s+sd}{    Args:}
+\PYG{l+s+sd}{        size (tuple): The desired size of the transformed image. Default is (224, 224).}
+
+\PYG{l+s+sd}{    \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+
+    \PYG{k}{def} \PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{size}\PYG{o}{=}\PYG{p}{(}\PYG{l+m+mi}{224}\PYG{p}{,} \PYG{l+m+mi}{224}\PYG{p}{)):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{size} \PYG{o}{=} \PYG{n}{size}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{mean\PYGZus{}std} \PYG{o}{=} \PYG{p}{([}\PYG{l+m+mf}{0.485}\PYG{p}{,} \PYG{l+m+mf}{0.456}\PYG{p}{,} \PYG{l+m+mf}{0.406}\PYG{p}{],} \PYG{p}{[}\PYG{l+m+mf}{0.229}\PYG{p}{,} \PYG{l+m+mf}{0.224}\PYG{p}{,} \PYG{l+m+mf}{0.225}\PYG{p}{])}
+
+    \PYG{k}{def} \PYG{n+nf+fm}{\PYGZus{}\PYGZus{}call\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{img}\PYG{p}{,} \PYG{n}{mask}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{        Applies common image transformations to the input image and mask.}
+
+\PYG{l+s+sd}{        Args:}
+\PYG{l+s+sd}{            img (PIL.Image.Image): The input image.}
+\PYG{l+s+sd}{            mask (PIL.Image.Image): The input mask.}
+
+\PYG{l+s+sd}{        Returns:}
+\PYG{l+s+sd}{            tuple: A tuple containing the transformed image and mask.}
+
+\PYG{l+s+sd}{        \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{c+c1}{\PYGZsh{} Random horizontal flip with the same decision for both img and mask}
+        \PYG{k}{if} \PYG{n}{random}\PYG{o}{.}\PYG{n}{random}\PYG{p}{()} \PYG{o}{\PYGZgt{}} \PYG{l+m+mf}{0.5}\PYG{p}{:}
+            \PYG{n}{img} \PYG{o}{=} \PYG{n}{F}\PYG{o}{.}\PYG{n}{hflip}\PYG{p}{(}\PYG{n}{img}\PYG{p}{)}
+            \PYG{n}{mask} \PYG{o}{=} \PYG{n}{F}\PYG{o}{.}\PYG{n}{hflip}\PYG{p}{(}\PYG{n}{mask}\PYG{p}{)}
+
+        \PYG{c+c1}{\PYGZsh{} Random resized crop with the same parameters for both img and mask}
+        \PYG{n}{i}\PYG{p}{,} \PYG{n}{j}\PYG{p}{,} \PYG{n}{h}\PYG{p}{,} \PYG{n}{w} \PYG{o}{=} \PYG{n}{transforms}\PYG{o}{.}\PYG{n}{RandomResizedCrop}\PYG{o}{.}\PYG{n}{get\PYGZus{}params}\PYG{p}{(}\PYG{n}{img}\PYG{p}{,} \PYG{n}{scale}\PYG{o}{=}\PYG{p}{(}\PYG{l+m+mf}{0.08}\PYG{p}{,} \PYG{l+m+mf}{1.0}\PYG{p}{),} \PYG{n}{ratio}\PYG{o}{=}\PYG{p}{(}\PYG{l+m+mf}{3.}\PYG{o}{/}\PYG{l+m+mf}{4.}\PYG{p}{,} \PYG{l+m+mf}{4.}\PYG{o}{/}\PYG{l+m+mf}{3.}\PYG{p}{))}
+        \PYG{n}{img} \PYG{o}{=} \PYG{n}{F}\PYG{o}{.}\PYG{n}{resized\PYGZus{}crop}\PYG{p}{(}\PYG{n}{img}\PYG{p}{,} \PYG{n}{i}\PYG{p}{,} \PYG{n}{j}\PYG{p}{,} \PYG{n}{h}\PYG{p}{,} \PYG{n}{w}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{size}\PYG{p}{,} \PYG{n}{InterpolationMode}\PYG{o}{.}\PYG{n}{BILINEAR}\PYG{p}{)}
+        \PYG{n}{mask} \PYG{o}{=} \PYG{n}{F}\PYG{o}{.}\PYG{n}{resized\PYGZus{}crop}\PYG{p}{(}\PYG{n}{mask}\PYG{p}{,} \PYG{n}{i}\PYG{p}{,} \PYG{n}{j}\PYG{p}{,} \PYG{n}{h}\PYG{p}{,} \PYG{n}{w}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{size}\PYG{p}{,} \PYG{n}{InterpolationMode}\PYG{o}{.}\PYG{n}{NEAREST}\PYG{p}{)}
+
+        \PYG{c+c1}{\PYGZsh{} Convert images to tensors without normalization}
+        \PYG{n}{img} \PYG{o}{=} \PYG{n}{standard\PYGZus{}transforms}\PYG{o}{.}\PYG{n}{functional}\PYG{o}{.}\PYG{n}{to\PYGZus{}tensor}\PYG{p}{(}\PYG{n}{img}\PYG{p}{)}
+        \PYG{c+c1}{\PYGZsh{} Normalize image using mean and standard deviation}
+        \PYG{n}{img} \PYG{o}{=} \PYG{n}{standard\PYGZus{}transforms}\PYG{o}{.}\PYG{n}{functional}\PYG{o}{.}\PYG{n}{normalize}\PYG{p}{(}\PYG{n}{img}\PYG{p}{,} \PYG{o}{*}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{mean\PYGZus{}std}\PYG{p}{)}
+
+        \PYG{c+c1}{\PYGZsh{} Convert mask to tensor with long dtype and handle values of 255}
+        \PYG{n}{mask} \PYG{o}{=} \PYG{n}{torch}\PYG{o}{.}\PYG{n}{as\PYGZus{}tensor}\PYG{p}{(}\PYG{n}{np}\PYG{o}{.}\PYG{n}{array}\PYG{p}{(}\PYG{n}{mask}\PYG{p}{),} \PYG{n}{dtype}\PYG{o}{=}\PYG{n}{torch}\PYG{o}{.}\PYG{n}{long}\PYG{p}{)}
+        \PYG{n}{mask}\PYG{p}{[}\PYG{n}{mask} \PYG{o}{==} \PYG{l+m+mi}{255}\PYG{p}{]} \PYG{o}{=} \PYG{l+m+mi}{0}
+
+        \PYG{k}{return} \PYG{n}{img}\PYG{p}{,} \PYG{n}{mask}
+\end{Verbatim}

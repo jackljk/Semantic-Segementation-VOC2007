@@ -1,0 +1,25 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+  \PYG{k}{def} \PYG{n+nf}{getClassWeights}\PYG{p}{(}\PYG{n}{dataset}\PYG{p}{):}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{    Calculate the class weights for a given dataset to handle class imbalance.}
+
+\PYG{l+s+sd}{    Parameters:}
+\PYG{l+s+sd}{    dataset (torch.utils.data.Dataset): The dataset containing the samples and labels.}
+
+\PYG{l+s+sd}{    Returns:}
+\PYG{l+s+sd}{    torch.Tensor: The class weights for each class in the dataset, inversely proportional to class frequencies.}
+\PYG{l+s+sd}{    \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{n}{class\PYGZus{}counts} \PYG{o}{=} \PYG{n}{torch}\PYG{o}{.}\PYG{n}{zeros}\PYG{p}{(}\PYG{l+m+mi}{21}\PYG{p}{,} \PYG{n}{dtype}\PYG{o}{=}\PYG{n}{torch}\PYG{o}{.}\PYG{n}{long}\PYG{p}{)}
+    \PYG{k}{for} \PYG{n}{\PYGZus{}}\PYG{p}{,} \PYG{n}{label} \PYG{o+ow}{in} \PYG{n}{dataset}\PYG{p}{:}
+        \PYG{n}{label} \PYG{o}{=} \PYG{n}{label}\PYG{o}{.}\PYG{n}{long}\PYG{p}{()}  \PYG{c+c1}{\PYGZsh{} Ensure label is of type torch.long for bincount}
+        \PYG{n}{class\PYGZus{}counts} \PYG{o}{+=} \PYG{n}{torch}\PYG{o}{.}\PYG{n}{bincount}\PYG{p}{(}\PYG{n}{label}\PYG{o}{.}\PYG{n}{view}\PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{),} \PYG{n}{minlength}\PYG{o}{=}\PYG{l+m+mi}{21}\PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} Avoid division by zero for classes not present in the dataset}
+    \PYG{n}{class\PYGZus{}counts}\PYG{p}{[}\PYG{n}{class\PYGZus{}counts} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{=} \PYG{l+m+mi}{1}
+
+    \PYG{n}{total\PYGZus{}samples} \PYG{o}{=} \PYG{n}{class\PYGZus{}counts}\PYG{o}{.}\PYG{n}{sum}\PYG{p}{()}\PYG{o}{.}\PYG{n}{float}\PYG{p}{()}
+    \PYG{n}{class\PYGZus{}weights} \PYG{o}{=} \PYG{n}{total\PYGZus{}samples} \PYG{o}{/} \PYG{n}{class\PYGZus{}counts}
+
+    \PYG{c+c1}{\PYGZsh{} Normalize weights to sum to 1, if desired (optional, depending on use case)}
+    \PYG{n}{class\PYGZus{}weights} \PYG{o}{/=} \PYG{n}{class\PYGZus{}weights}\PYG{o}{.}\PYG{n}{sum}\PYG{p}{()}
+\end{Verbatim}

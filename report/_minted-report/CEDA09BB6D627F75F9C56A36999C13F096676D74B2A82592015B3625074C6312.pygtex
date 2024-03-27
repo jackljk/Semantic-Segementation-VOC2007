@@ -1,0 +1,8 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+  \PYG{k}{def} \PYG{n+nf}{crop}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{source}\PYG{p}{,} \PYG{n}{target}\PYG{p}{):}
+      \PYG{n}{target\PYGZus{}size} \PYG{o}{=} \PYG{n}{target}\PYG{o}{.}\PYG{n}{size}\PYG{p}{()[}\PYG{l+m+mi}{2}\PYG{p}{:]}
+      \PYG{n}{source\PYGZus{}size} \PYG{o}{=} \PYG{n}{source}\PYG{o}{.}\PYG{n}{size}\PYG{p}{()[}\PYG{l+m+mi}{2}\PYG{p}{:]}
+
+      \PYG{n}{delta} \PYG{o}{=} \PYG{p}{[(}\PYG{n}{s} \PYG{o}{\PYGZhy{}} \PYG{n}{t}\PYG{p}{)} \PYG{o}{//} \PYG{l+m+mi}{2} \PYG{k}{for} \PYG{n}{s}\PYG{p}{,} \PYG{n}{t} \PYG{o+ow}{in} \PYG{n+nb}{zip}\PYG{p}{(}\PYG{n}{source\PYGZus{}size}\PYG{p}{,} \PYG{n}{target\PYGZus{}size}\PYG{p}{)]}
+      \PYG{k}{return} \PYG{n}{source}\PYG{p}{[:,} \PYG{p}{:,} \PYG{n}{delta}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]:}\PYG{n}{source\PYGZus{}size}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{\PYGZhy{}} \PYG{n}{delta}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{],} \PYG{n}{delta}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]:}\PYG{n}{source\PYGZus{}size}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{\PYGZhy{}} \PYG{n}{delta}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]]}
+\end{Verbatim}

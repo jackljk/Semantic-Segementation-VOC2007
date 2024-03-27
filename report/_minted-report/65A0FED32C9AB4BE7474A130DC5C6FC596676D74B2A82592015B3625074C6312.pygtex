@@ -1,0 +1,9 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+  \PYG{n}{up\PYGZus{}pool1} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{up\PYGZus{}pool1}\PYG{p}{(}\PYG{n}{bottleneck}\PYG{p}{)}
+  \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cropb}\PYG{p}{:}
+      \PYG{n}{up\PYGZus{}pool1\PYGZus{}cropped} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{crop}\PYG{p}{(}\PYG{n}{conv4}\PYG{p}{,} \PYG{n}{up\PYGZus{}pool1}\PYG{p}{)}
+      \PYG{n}{concat1} \PYG{o}{=} \PYG{n}{torch}\PYG{o}{.}\PYG{n}{cat}\PYG{p}{((}\PYG{n}{up\PYGZus{}pool1}\PYG{p}{,} \PYG{n}{up\PYGZus{}pool1\PYGZus{}cropped}\PYG{p}{),} \PYG{l+m+mi}{1}\PYG{p}{)}
+
+  \PYG{n}{up\PYGZus{}conv11} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{relu}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{bn\PYGZus{}up\PYGZus{}conv1}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{up\PYGZus{}conv11}\PYG{p}{(}\PYG{n}{concat1}\PYG{p}{)))}
+  \PYG{n}{up\PYGZus{}conv1} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{relu}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{bn\PYGZus{}up\PYGZus{}conv1}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{up\PYGZus{}conv1}\PYG{p}{(}\PYG{n}{up\PYGZus{}conv11}\PYG{p}{)))}
+\end{Verbatim}
